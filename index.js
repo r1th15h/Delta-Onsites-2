@@ -170,7 +170,7 @@ function checkfruitdelete(){
 
 function genfruit(){
     for(let i=0;i<randint(1,4);i++){
-        let f = new Fruit(randint(50,950),canvas.height-50,ballradius[randint(0,2)],xspeed[randint(0,9)],randint(9,13),colors[randint(0,4)]);
+        let f = new Fruit(randint(50,950),canvas.height,ballradius[randint(0,2)],xspeed[randint(0,9)],randint(10,14),colors[randint(0,4)]);
         fruits.push(f);
     }
     fruitspawn = false;
