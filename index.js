@@ -65,9 +65,6 @@ class Fruit{
 
     update(){
         this.x+=this.dx;
-        if(this.y-this.dy-this.radius<=20){
-            this.dy = -this.dy;
-        }
         this.y-=this.dy;
         this.dy-=0.17;
         this.draw();
@@ -167,7 +164,7 @@ function checkfruitdelete(){
 
 function genfruit(){
     for(let i=0;i<randint(2,5);i++){
-        let fruit = new Fruit(randint(100,canvas.width-100),canvas.height,ballradius[randint(0,2)],xspeed[randint(0,9)],randint(10,14),colors[randint(0,4)]);
+        let fruit = new Fruit(randint(100,canvas.width-100),canvas.height,ballradius[randint(0,2)],xspeed[randint(0,9)],randint(11,15),colors[randint(0,4)]);
         fruits.push(fruit);
     }
     fruitspawn = false;
