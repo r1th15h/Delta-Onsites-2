@@ -34,8 +34,8 @@ function randint(min,max){
     return Math.floor(Math.random()*(max-min+1)+min);
 }
 
-function circleCircleCollision(sx,sy,fx,fy,r1,r2){
-    let dist = Math.hypot(sx-fx,sy-fy);
+function circleCircleCollision(swordx,swordy,fruitx,fruity,r1,r2){
+    let dist = Math.hypot(swordx-fruitx,swordy-fruity);
     return (dist<r1+r2);
 }
 
@@ -47,7 +47,6 @@ class Fruit{
         this.radius = rad;
         this.dx = dx;
         this.dy = dy;
-        this.top = 40;
     }
     draw(){
         c.beginPath();
@@ -60,7 +59,7 @@ class Fruit{
         c.textAlign = "center";
         c.textBaseline = "middle";
         if(this.color=="white"){
-            c.fillText("BOMB",this.x,this.y,)
+            c.fillText("BOMB",this.x,this.y)
         }
     }
 
@@ -74,7 +73,6 @@ class Fruit{
         this.draw();
     }
 }
-
 class Sword{
     constructor(x,y){
         this.x = x;
@@ -92,7 +90,6 @@ class Sword{
         this.draw();
     }
 }
-
 class Splash{
     constructor(x,y,color){
         this.x = x;
@@ -169,9 +166,9 @@ function checkfruitdelete(){
 }
 
 function genfruit(){
-    for(let i=0;i<randint(1,4);i++){
-        let f = new Fruit(randint(50,950),canvas.height,ballradius[randint(0,2)],xspeed[randint(0,9)],randint(10,14),colors[randint(0,4)]);
-        fruits.push(f);
+    for(let i=0;i<randint(2,5);i++){
+        let fruit = new Fruit(randint(100,canvas.width-100),canvas.height,ballradius[randint(0,2)],xspeed[randint(0,9)],randint(10,14),colors[randint(0,4)]);
+        fruits.push(fruit);
     }
     fruitspawn = false;
 }
@@ -180,34 +177,32 @@ genfruit();
 function checkfruitcut(){
     for(let i=0;i<fruits.length;i++){
         if(circleCircleCollision(sword.x,sword.y,fruits[i].x,fruits[i].y,sword.radius,fruits[i].radius)){
-            const fr = fruits[i];
-            if(fr.color=="white"){
+            const fruit = fruits[i];
+            if(fruit.color=="white"){
                 gameOver();
             }
             for(let j=0;j<20;j++){
-                let fruitsplash = new Splash(fr.x,fr.y,fr.color);
+                let fruitsplash = new Splash(fruit.x,fruit.y,fruit.color);
                 splash.push(fruitsplash);
             }
-            if(fr.radius==15 && fr.color!="white"){
+            if(fruit.radius==15 && fruit.color!="white"){
                 points+=2;
             }
-            else if(fr.radius==25 && fr.color!="white"){
+            else if(fruit.radius==25 && fruit.color!="white"){
                 points+=1;
             }
-            else if(fr.radius==35 && fr.color!="white"){
+            else if(fruit.radius==35 && fruit.color!="white"){
                 points+=0.5;
             }
-
             fruits.splice(i,1);
             score.innerHTML = `Score: ${points}`;
-                if(fruits.length==0 && !gen){
-                    gen=true;
-                    setTimeout(()=>{
-                        gen=false;
-                        genfruit();
-                },1000)
-            }
-            
+            if(fruits.length==0 && !gen){
+                gen=true;
+                setTimeout(()=>{
+                    gen=false;
+                    genfruit();
+            },1000)
+            } 
         }
     }
 }
@@ -249,7 +244,7 @@ addEventListener("mousemove",(e)=>{
     sword.y = cursor.y;
 })
 
-let sword = new Sword(0,0);
+let sword = new Sword(canvas.width/2,canvas.height/2);
 
 function main(){
     c.clearRect(0,0,2000,2000);
